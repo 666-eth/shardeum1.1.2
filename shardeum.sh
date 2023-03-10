@@ -120,35 +120,8 @@ read -p "Do you want to run the web based Dashboard? (y/n): " RUNDASHBOARD
 RUNDASHBOARD=${RUNDASHBOARD:-y}
 
 unset CHARCOUNT
-echo -n "Set the password to access the Dashboard: "
-CHARCOUNT=3
-while IFS= read -p "$PROMPT" -r -s -n 1 CHAR
-do
-  # Enter - accept password
-  if [[ $CHAR == $'\0' ]] ; then
-    if [ $CHARCOUNT -gt 0 ] ; then # Make sure password character length is greater than 0.
-      break
-    else
-      echo
-      echo -n "Invalid password input. Enter a password with character length greater than 0:"
-      continue
-    fi
-  fi
-  # Backspace
-  if [[ $CHAR == $'\177' ]] ; then
-    if [ $CHARCOUNT -gt 0 ] ; then
-      CHARCOUNT=$((CHARCOUNT-1))
-      PROMPT=$'\b \b'
-      DASHPASS="123"
-    else
-      PROMPT=''
-    fi
-  else
-    CHARCOUNT=$((CHARCOUNT+1))
-    PROMPT='*'
-    DASHPASS+="$CHAR"
-  fi
-done
+DASHPASS="123"
+CHARCOUNT=${#DASHPASS}
 
 echo # New line after inputs.
 # echo "Password saved as:" $DASHPASS #DEBUG: TEST PASSWORD WAS RECORDED AFTER ENTERED.
@@ -230,7 +203,7 @@ APP_IP=auto
 APP_SEEDLIST=${APPSEEDLIST}
 APP_MONITOR=${APPMONITOR}
 DASHPASS=${DASHPASS}
-DASHPORT=123
+DASHPORT=${DASHPORT}
 SERVERIP=${SERVERIP}
 LOCALLANIP=${LOCALLANIP}
 SHMEXT=${SHMEXT}
